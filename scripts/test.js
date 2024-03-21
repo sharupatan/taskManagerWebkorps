@@ -86,7 +86,34 @@ if ("showDirectoryPicker" in window) {
     }
   }
 
-  fileButton.addEventListener("click", handleFileOperations);
+  async function writeToTextFile() {
+    try {
+      const handle = await window.showSaveFilePicker({
+        types: [
+          {
+            description: "Text Files",
+            accept: {
+              "text/plain": [".txt"],
+            },
+          },
+        ],
+      });
+  
+      const writable = await handle.createWritable();
+  
+      for (const item of data) {
+        await writable.write(JSON.stringify(item) + "\n");
+      }
+  
+      await writable.close();
+  
+      console.log("Data appended to the file successfully.");
+    } catch (error) {
+      console.error("Error appending data to the file:", error);
+    }
+  }
+
+  fileButton.addEventListener("click", writeToTextFile);
 } else {
   console.error("Directory System API is not supported in this browser.");
 }
@@ -126,6 +153,6 @@ document
       description: description,
     };
     data.push(currentObject);
-    renderTable()
+    renderTable();
     // You can perform further actions here, such as sending the data to a server or updating the UI
   });
