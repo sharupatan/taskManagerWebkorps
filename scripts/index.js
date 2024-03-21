@@ -98,6 +98,22 @@ async function writeToTextFile() {
   }
 }
 
+function convertToImage() {
+  const dataTable = document.getElementById("table-container");
+  html2canvas(dataTable, {
+    onrendered: function (canvas) {
+      const image = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+      const downloadLink = document.createElement("a");
+      downloadLink.href = image;
+      downloadLink.download = "data_table_image.png";
+      downloadLink.click();
+    },
+  });
+}
+
+
 const data = [
   {
     date: "20/01/2024",
@@ -115,7 +131,7 @@ renderTable();
 document.getElementById("taskDate").value = TimeClass.getFormattedTime();
 
 if ("showDirectoryPicker" in window) {
-  fileButton.addEventListener("click", writeToTextFile);
+  fileButton.addEventListener("click", convertToImage);
 } else {
   const msg = "System directory cannot be accessed through this browser!";
   console.log(msg);

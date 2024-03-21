@@ -16,6 +16,11 @@ td {
   text-align: center;
 }
 
+td{
+  color: black;
+  background-color: white;
+}
+
 th {
   background-color: #4caf50;
   color: white;
